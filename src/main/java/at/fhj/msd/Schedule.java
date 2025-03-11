@@ -12,6 +12,10 @@ public class Schedule {
     
 
     public Schedule(String cohort, String group, String lecture, String starts, String ends, String lecturer, String place) {
+
+        if (!cohort.equals("SWD")) {
+            throw new IllegalArgumentException("Invalid cohort. Only SWD is valid!");
+        }
             
         this.cohort = cohort;
         this.group = group;
@@ -21,6 +25,10 @@ public class Schedule {
         this.lecturer = lecturer;
         this.place = place;
 
+    }
+
+    public String GetLecture(){
+        return this.lecture;
     }
 
     public String asCsv(String delimeter) {
