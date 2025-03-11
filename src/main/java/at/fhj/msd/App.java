@@ -1,9 +1,11 @@
 package at.fhj.msd;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -18,9 +20,9 @@ public class App {
 
         //?Test for method .asCsv()
         Schedule obj = new Schedule("SWD", "G1", "Software Development II", "2024-02-23 14:00:00", "024-02-23 16:15:00", "Harald Schwab", "Hörsaal (ITM) (WS46b.01.103)");
-        // System.out.println(obj.asCsv(":"));  
-        System.out.println(obj.asSql());
-
+        // System.out.println(obj.asCsv(":"));  --> Test for asCsv()
+        //System.out.println(obj.asSql());  --> Test for asSql()
+        writeData(ValidLines, "sql");
     }
 
     //! Reads data from a textfile, and returns a list.
@@ -36,7 +38,7 @@ public class App {
                 lines.add(line);
             }
         } catch (FileNotFoundException e) {
-            System.out.printf("Datei '%s' nicht gefunden: ", file);
+            System.out.printf("file '%s' was not found: ", file);
 
         } catch (IOException e) {
             System.out.printf("Error during reading the file '%s'", file);
@@ -62,16 +64,65 @@ public class App {
                     System.out.println(e.getMessage() + " --> on " + countLines);
 
                 } catch (Exception e) {
-                    System.out.println("Ein unerwartete Fehler ist aufgetreten: " + e.getMessage());
+                    System.out.println("Somewhere error" + e.getMessage());
                 }
             }
         } catch (Exception e) {
 
-            System.out.println("Ein unerwartete Fehler ist aufgetreten: " + e.getMessage());
+            System.out.println("Somewhere error" + e.getMessage());
 
         }
         return ValidLines;
 
+    }
+
+    public static void writeData(ArrayList<Schedule> ValidLines, String type) {
+       
+        int countLines = 0;
+        if (type.equals("csv")) {
+            File file = new File("src/main/resources/data.csv");
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+
+                for (Schedule line : ValidLines) {
+                    bw.write(line.asCsv(",") + "\n");
+                    countLines++;
+                }
+                System.out.printf("Filename: '%s' | Lines written: %d", file, countLines);
+
+            } catch (IOException e) {
+                System.out.println("Somewhere error");
+            }
+        } else if (type.equals("tsv")) {
+            File file = new File("src/main/resources/data.tsv");
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+
+                for (Schedule line : ValidLines) {
+                    bw.write(line.asCsv("    ") + "\n");
+                    countLines++;
+                }
+                System.out.printf("Filename: '%s' | Lines written: %d", file, countLines);
+
+            } catch (IOException e) {
+                System.out.println("Somewhere error");
+            }
+        } else if (type.equals("sql")) {
+            File file = new File("src/main/resources/data.sql");
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+
+                for (Schedule line : ValidLines) {
+                    bw.write(line.asSql() + "\n");
+                    countLines++;
+                }
+                System.out.printf("Filename: '%s' | Lines written: %d", file, countLines);
+
+            } catch (IOException e) {
+                System.out.println("Somewhere error");
+            }
+        }
+        else{
+            System.out.println("Wrong type. Can't find type. Stupid idiot");
+        }
+        
     }
 
 }
