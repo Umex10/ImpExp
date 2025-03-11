@@ -14,10 +14,13 @@ public class App {
         ArrayList<String> listOfSchedules = read(filename);
         String delimeter = ";";
         ArrayList<Schedule> ValidLines = readData(listOfSchedules, delimeter);
-        System.out.println(ValidLines);
-        for (Schedule line: ValidLines) {
-            System.out.println(line.GetLecture());
-        }
+
+        //?Test for method .asCsv()
+       Schedule obj = new Schedule("SWD", "G1", "Software Development II", "2024-02-23 14:00:00", "024-02-23 16:15:00", "Harald Schwab", "Hörsaal (ITM) (WS46b.01.103)");
+       // System.out.println(obj.asCsv(":"));  
+       System.out.println(obj.asSql());
+        
+
     }
 
     //! Reads data from a textfile, and returns a list.
