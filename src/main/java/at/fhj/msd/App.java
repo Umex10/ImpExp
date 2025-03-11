@@ -79,6 +79,9 @@ public class App {
     public static void writeData(ArrayList<Schedule> ValidLines, String type) {
        
         int countLines = 0;
+
+        //? Lines with comma
+
         if (type.equals("csv")) {
             File file = new File("src/main/resources/data.csv");
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
@@ -92,7 +95,11 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Somewhere error");
             }
-        } else if (type.equals("tsv")) {
+        } 
+        
+        //? Lines with TAB
+        
+        else if (type.equals("tsv")) {
             File file = new File("src/main/resources/data.tsv");
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
 
@@ -105,7 +112,11 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Somewhere error");
             }
-        } else if (type.equals("sql")) {
+        }
+        
+        //? Lines with SQL Syntax: Insert into....
+
+        else if (type.equals("sql")) {
             File file = new File("src/main/resources/data.sql");
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
 

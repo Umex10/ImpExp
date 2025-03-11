@@ -12,6 +12,7 @@ public class Schedule {
     private String lecturer;
     private String place;
 
+    //! 1. Constructor
     public Schedule(String cohort, String group, String lecture, String starts, String ends, String lecturer, String place) {
 
         if (!cohort.equals("SWD")) {
@@ -57,6 +58,7 @@ public class Schedule {
         return this.place;  //Just for test
     }
 
+    //! ArrayList with all this....
     private ArrayList<String> GetList() {
 
         ArrayList<String> attributes = new ArrayList<>();
@@ -97,7 +99,8 @@ public class Schedule {
                 commaLine++;
                 content += "<" + line + ">";
                 continue;
-            } content += ",<" + line + ">";
+            }
+            content += ",<" + line + ">";
         }
 
         return "INSERT INTO schedules VALUES (" + content + ")"; //INSERT INTO schedules VALUES (<cohort>,<group>,<lecture>,<start>,<end>,<lecturer>,<place>);
