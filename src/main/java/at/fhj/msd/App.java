@@ -33,6 +33,18 @@ public class App {
         }
         return lines;
     }
+    
+    public static void print(ArrayList<String> lines, String delimeter, int[] columns) {
 
+        try {
+            for (String line: lines) {
+                String[] teile = line.split(delimeter);
+                
+            }
+            
+        } catch (Exception e) {
+        }
+
+    }
 
 }

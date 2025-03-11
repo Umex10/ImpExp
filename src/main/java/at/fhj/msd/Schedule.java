@@ -3,22 +3,23 @@ package at.fhj.msd;
 public class Schedule {
 
     private String cohort;
-    private String lecture;
     private String group;
+    private String lecture;
     private String starts;
     private String ends;
-    private String place;
     private String lecturer;
+    private String place;
+    
 
     public Schedule(String cohort, String group, String lecture, String starts, String ends, String lecturer, String place) {
             
         this.cohort = cohort;
-        this.lecture = lecture;
         this.group = group;
+        this.lecture = lecture;
         this.starts = starts;
         this.ends = ends;
-        this.place = place;
         this.lecturer = lecturer;
+        this.place = place;
 
     }
 
