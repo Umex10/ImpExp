@@ -22,7 +22,7 @@ public class App {
         Schedule obj = new Schedule("SWD", "G1", "Software Development II", "2024-02-23 14:00:00", "024-02-23 16:15:00", "Harald Schwab", "Hörsaal (ITM) (WS46b.01.103)");
         // System.out.println(obj.asCsv(":"));  --> Test for asCsv()
         //System.out.println(obj.asSql());  --> Test for asSql()
-        writeData(ValidLines, "sql");
+        writeData(ValidLines, "csv");
     }
 
     //! Reads data from a textfile, and returns a list.
@@ -57,7 +57,7 @@ public class App {
                 try {
                     String[] teile = line.split(delimeter); //This breaks each line into words which specified delimeter
                     countLines++;
-                    Schedule row = new Schedule(teile[0], teile[2], teile[1], teile[3], teile[4], teile[7], teile[5]); //Choosed necassary columns
+                    Schedule row = new Schedule(teile[0], teile[2], teile[1], teile[3], teile[4], teile[7], teile[5]); //choose necassary columns
                     ValidLines.add(row);
 
                 } catch (IllegalArgumentException e) {
@@ -77,7 +77,7 @@ public class App {
     }
 
     public static void writeData(ArrayList<Schedule> ValidLines, String type) {
-       
+
         int countLines = 0;
 
         //? Lines with comma
@@ -95,10 +95,9 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Somewhere error");
             }
-        } 
-        
-        //? Lines with TAB
-        
+        }
+         //? Lines with TAB
+
         else if (type.equals("tsv")) {
             File file = new File("src/main/resources/data.tsv");
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
@@ -112,10 +111,9 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Somewhere error");
             }
-        }
-        
+        } 
         //? Lines with SQL Syntax: Insert into....
-
+        
         else if (type.equals("sql")) {
             File file = new File("src/main/resources/data.sql");
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
@@ -129,11 +127,10 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Somewhere error");
             }
-        }
-        else{
+        } else {
             System.out.println("Wrong type. Can't find type. Stupid idiot");
         }
-        
+
     }
 
 }

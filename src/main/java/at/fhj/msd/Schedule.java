@@ -78,10 +78,16 @@ public class Schedule {
     public String asCsv(String delimeter) {
 
         ArrayList<String> attributes = GetList();
-
+        int commaLine = 0;
         String content = "";
         for (String line : attributes) {
-            content += line + delimeter;
+
+            if (commaLine == 0) {
+                commaLine++;
+                content += line;
+            }
+
+            content += delimeter + line;
         }
 
         return content; //cohort<d>group<d>lecture<d>start<d>end<d>lecturer<d>place
