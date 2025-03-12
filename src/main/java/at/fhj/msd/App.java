@@ -1,12 +1,5 @@
 package at.fhj.msd;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class App {
@@ -14,123 +7,16 @@ public class App {
     public static void main(String[] args) {
 
         String filename = "src\\main\\resources\\data.txt";
-        ArrayList<String> listOfSchedules = read(filename);
+        var reader = new DataReader(filename); //New Constructor
+        ArrayList<String> listOfSchedules = reader.read(); //Call read() Method inside DataReader
         String delimeter = ";";
-        ArrayList<Schedule> ValidLines = readData(listOfSchedules, delimeter);
+        ArrayList<Schedule> ValidLines = reader.readData(listOfSchedules, delimeter); //Call readData() from DataReader
+        var writer = new DataWriter(); //New Construcotr for DataWriter
+        writer.writeSql(ValidLines); //Test with .sql!
 
-        //?Test for method .asCsv()
         Schedule obj = new Schedule("SWD", "G1", "Software Development II", "2024-02-23 14:00:00", "024-02-23 16:15:00", "Harald Schwab", "Hörsaal (ITM) (WS46b.01.103)");
         // System.out.println(obj.asCsv(":"));  --> Test for asCsv()
         //System.out.println(obj.asSql());  --> Test for asSql()
-        writeData(ValidLines, "csv");
-    }
-
-    //! Reads data from a textfile, and returns a list.
-    public static ArrayList<String> read(String filename) {
-
-        File file = new File(filename);
-
-        ArrayList<String> lines = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.printf("file '%s' was not found: ", file);
-
-        } catch (IOException e) {
-            System.out.printf("Error during reading the file '%s'", file);
-            return null;
-        }
-        return lines;
-    }
-
-    public static ArrayList<Schedule> readData(ArrayList<String> lines, String delimeter) {
-        int countLines = 0;
-        ArrayList<Schedule> ValidLines = new ArrayList<>(); //This list will contain all "valid" objects
-
-        try {
-
-            for (String line : lines) {
-                try {
-                    String[] teile = line.split(delimeter); //This breaks each line into words which specified delimeter
-                    countLines++;
-                    Schedule row = new Schedule(teile[0], teile[2], teile[1], teile[3], teile[4], teile[7], teile[5]); //choose necassary columns
-                    ValidLines.add(row);
-
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage() + " --> on " + countLines);
-
-                } catch (Exception e) {
-                    System.out.println("Somewhere error" + e.getMessage());
-                }
-            }
-        } catch (Exception e) {
-
-            System.out.println("Somewhere error" + e.getMessage());
-
-        }
-        return ValidLines;
-
-    }
-
-    public static void writeData(ArrayList<Schedule> ValidLines, String type) {
-
-        int countLines = 0;
-
-        //? Lines with comma
-
-        if (type.equals("csv")) {
-            File file = new File("src/main/resources/data.csv");
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-
-                for (Schedule line : ValidLines) {
-                    bw.write(line.asCsv(",") + "\n");
-                    countLines++;
-                }
-                System.out.printf("Filename: '%s' | Lines written: %d", file, countLines);
-
-            } catch (IOException e) {
-                System.out.println("Somewhere error");
-            }
-        }
-         //? Lines with TAB
-
-        else if (type.equals("tsv")) {
-            File file = new File("src/main/resources/data.tsv");
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-
-                for (Schedule line : ValidLines) {
-                    bw.write(line.asCsv("    ") + "\n");
-                    countLines++;
-                }
-                System.out.printf("Filename: '%s' | Lines written: %d", file, countLines);
-
-            } catch (IOException e) {
-                System.out.println("Somewhere error");
-            }
-        } 
-        //? Lines with SQL Syntax: Insert into....
-        
-        else if (type.equals("sql")) {
-            File file = new File("src/main/resources/data.sql");
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-
-                for (Schedule line : ValidLines) {
-                    bw.write(line.asSql() + "\n");
-                    countLines++;
-                }
-                System.out.printf("Filename: '%s' | Lines written: %d", file, countLines);
-
-            } catch (IOException e) {
-                System.out.println("Somewhere error");
-            }
-        } else {
-            System.out.println("Wrong type. Can't find type. Stupid idiot");
-        }
-
     }
 
 }
