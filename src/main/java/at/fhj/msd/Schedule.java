@@ -1,7 +1,5 @@
 package at.fhj.msd;
 
-import java.util.ArrayList;
-
 public class Schedule {
 
     private String cohort;
@@ -58,58 +56,19 @@ public class Schedule {
         return this.place;  //Just for test
     }
 
-    //! ArrayList with all this....
-    private ArrayList<String> GetList() {
-
-        ArrayList<String> attributes = new ArrayList<>();
-        attributes.add(this.GetCohort());
-        attributes.add(this.GetGroup());
-        attributes.add(this.GetLecture());
-        attributes.add(this.GetStarts());
-        attributes.add(this.GetEnds());
-        attributes.add(this.GetLecturer());
-        attributes.add(this.GetPlace());
-
-        return attributes;
-
-    }
-
     //! 1. Method
     public String asCsv(String delimeter) {
 
-        ArrayList<String> attributes = GetList();
-        int commaLine = 0;
-        String content = "";
-        for (String line : attributes) {
-
-            if (commaLine == 0) {
-                commaLine++;
-                content += line;
-            }
-
-            content += delimeter + line;
-        }
-
-        return content; //cohort<d>group<d>lecture<d>start<d>end<d>lecturer<d>place
+        return String.join(delimeter, this.cohort, this.group, this.lecture, this.starts, this.ends, this.lecturer, this.place);
 
     }
 
     //! 2. Method
     public String asSql() {
 
-        ArrayList<String> attributes = GetList();
-        int commaLine = 0;
-        String content = "";
-        for (String line : attributes) {
-            if (commaLine == 0) {
-                commaLine++;
-                content += "<" + line + ">";
-                continue;
-            }
-            content += ",<" + line + ">";
-        }
+        return String.format("INSERT INTO schedules VALUES ('%s','%s','%s','%s','%s','%s','%s');", this.cohort, this.group,
+        this.lecture, this.starts, this.ends, this.lecturer, this.place);
 
-        return "INSERT INTO schedules VALUES (" + content + ")"; //INSERT INTO schedules VALUES (<cohort>,<group>,<lecture>,<start>,<end>,<lecturer>,<place>);
     }
 
-}
+} 

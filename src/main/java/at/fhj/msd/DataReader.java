@@ -11,7 +11,6 @@ public class DataReader {
 
     private String filename;
 
-
     public DataReader(String filename) {
         this.filename = filename;
     }
@@ -65,5 +64,5 @@ public class DataReader {
         return ValidLines;
 
     }
-    
+
 }
